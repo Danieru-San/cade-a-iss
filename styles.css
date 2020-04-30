@@ -1,0 +1,36 @@
+body {
+    margin: 0 auto;
+}
+
+.header-container {
+    display: flex;
+    background-color: #3d5af1;
+}
+
+.title-and-logo {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    padding: 15px;
+
+}
+
+.title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    align-self: center;
+    margin-left: 15px;
+    color: #e2f3f5;
+}
+
+.logo-properties {
+    margin-left: 5px;
+    width: 40px;
+    height: 40px;
+    transition: transform 1s;
+}
+
+.logo-properties:hover {
+    transform: rotate(180deg);
+}
