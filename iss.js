@@ -1,6 +1,41 @@
+const API = 'http://api.open-notify.org';
 const ISS_NOW = "http://api.open-notify.org/iss-now.json";
 const PEOPLE_IN_SPACE = "http://api.open-notify.org/astros.json";
+const OVERHEAD_PASS = `http://api.open-notify.org/iss-pass.json?`;
 const peopleInSpace = document.getElementById("people-in-space");
+const whenHere = document.getElementById('when');
+
+function getUserLocation(callback) {
+    if('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition((position) => { 
+            console.log(position.coords);
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            callback();
+        });
+    }
+
+    else {
+        alert("Houston, we have a problem. Can't access your location.");
+    }
+}
+
+async function loadPassesOverhead() {
+    getUserLocation(async () => {
+        // console.log({latitude, longitude});
+        const result = await fetch(OVERHEAD_PASS + `lat=${latitude}&lon=${longitude}`);
+        const OVERHEAD_PASS_JSON = await result.json();
+        console.log(OVERHEAD_PASS_JSON);
+    });
+    
+}
+
+whenHere.onclick = () => {
+    loadPassesOverhead();
+    // console.log("again: " + latitude);
+    // console.log("again: " + longitude);
+    // loadPassesOverhead();
+}
 
 var issIcon = L.icon({
     iconUrl: './assets/iss.png',
@@ -50,7 +85,7 @@ async function getPeopleInSpace() {
 async function getISS(map) {
     const response = await fetch(ISS_NOW);
     const ISS_NOW_JSON = await response.json();
-    console.log(ISS_NOW_JSON);
+    // console.log(ISS_NOW_JSON);
 
     if (ISS_NOW_JSON.message === "success") {
         const lat = ISS_NOW_JSON.iss_position.latitude;
@@ -72,6 +107,8 @@ function initMap() {
         maxZoom: 6,
         minZoom: 3
     });
+
+    // map.setMaxBounds(map.getBounds());
 
     CartoDB.addTo(map);
 
