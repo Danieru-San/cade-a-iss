@@ -1,0 +1,27 @@
+{
+  "name": "cade-a-iss",
+  "version": "1.0.0",
+  "description": "International Space Station tracker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Danieru-San/cade-a-iss.git"
+  },
+  "keywords": [
+    "ISS",
+    "space-station",
+    "astronomy"
+  ],
+  "author": "Fábio Daniel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Danieru-San/cade-a-iss/issues"
+  },
+  "homepage": "https://github.com/Danieru-San/cade-a-iss#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
