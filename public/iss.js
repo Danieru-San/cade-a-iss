@@ -45,8 +45,10 @@ async function calculatePasses() {
 
 whenHere.onclick = () => {
     getUserLocation(async () => {
-        console.log("got here");
-        const result = await fetch(`/test/${latitude}/${longitude}`);
+        // console.log("got here");
+        const result = await fetch(`/iss/passes/${latitude}/${longitude}`);
+        // TODO
+        console.log(await result.json());
     });
 }
 
@@ -60,9 +62,7 @@ var issIcon = L.icon({
 var marker;
 var markerAdded = false;
 
-function trackSpaceStation(map, lat, lon) {
-    
-
+function drawStation(map, lat, lon) {
     if (markerAdded === false) {
         marker = L.marker([lat, lon], {icon: issIcon});
         marker.addTo(map);
@@ -81,34 +81,19 @@ function trackSpaceStation(map, lat, lon) {
 }
 
 async function getPeopleInSpace() {
-    const response = await fetch(PEOPLE_IN_SPACE);
-    const PEOPLE_IN_SPACE_JSON = await response.json(); 
-    console.log(PEOPLE_IN_SPACE_JSON);
+    const response = await fetch('/iss/crew');
+    const crew = await response.json(); 
+    console.log(crew);
     
-    if (PEOPLE_IN_SPACE_JSON.message === "success") {
-        peopleInSpace.textContent = PEOPLE_IN_SPACE_JSON.number;
-        
-    }
-
-    else {
-        alert("Houston, we've got a problem.");
-    }
+    peopleInSpace.textContent = crew.number;        
 }
 
 async function getISS(map) {
-    const response = await fetch(ISS_NOW);
-    const ISS_NOW_JSON = await response.json();
-    // console.log(ISS_NOW_JSON);
-
-    if (ISS_NOW_JSON.message === "success") {
-        const lat = ISS_NOW_JSON.iss_position.latitude;
-        const lon = ISS_NOW_JSON.iss_position.longitude;
-        trackSpaceStation(map, lat, lon)
-    }
-
-    else (
-        alert("Houston, we have a problem. Mayday, MAYDAY! ISS can you hear me? Can you hear me, Major Tom?")
-    )
+    const response = await fetch('/iss/position');
+    const issPosition = await response.json();
+        const lat = issPosition.latitude;
+        const lon = issPosition.longitude;
+        drawStation(map, lat, lon)
 }
 
 function initMap() {

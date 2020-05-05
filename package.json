@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/Danieru-San/cade-a-iss#readme",
   "dependencies": {
+    "axios": "^0.19.2",
     "express": "^4.17.1"
   },
   "devDependencies": {
