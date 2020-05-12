@@ -4,6 +4,7 @@
     --text-color: #FAFAF8;
     --color-accent-1: #40514e;
     --color-accent-2: #333333;
+    --color-accent-3: #CC3F0C;
     --default-font: 'Share Tech Mono', monospace;
 }
 
@@ -13,7 +14,7 @@ html, body {
     flex-direction: column;
     width: 100%;
     scroll-behavior: smooth;
-    /* height: 100vh; */
+    height: 100vh;
      /* <-- height 100% only used if the page has no scroll !--> */
 }
 
@@ -145,10 +146,10 @@ a {
 .astronauts-container {
     background-color: var(--background-color-2);
     width: 100%;
-    min-height: 100vh;
+    min-height: calc(100vh - 70px);
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
 }
 
@@ -164,6 +165,7 @@ a {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
     background-color: whitesmoke 0.2;
     width: 80%;
     height: 400px;
@@ -173,6 +175,7 @@ a {
 .astronaut { 
     margin-top: 50px;
     margin-right: 30px;
+    margin-left: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -190,6 +193,12 @@ a {
     margin-bottom: 10px;
 }
 
+.astronaut-picture img {
+    width: 290px;
+    height: 290px;
+    object-fit: cover;
+}
+
 .astronaut-info {
     width: 100%;
     color: var(--color-accent-2);
@@ -199,6 +208,46 @@ a {
     justify-content: space-around;
 }
 
+.astronaut-name {
+    color: var(--color-accent-3);
+}
+
 #people-in-space, #number-beings {
-    color: #CC3F0C;
+    color: var(--color-accent-3);
+}
+
+.learn-more {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.learn-more button:hover {
+    background-color: var(--color-accent-3);
+    filter: brightness(1);
+}
+
+.footer {
+    background-color: var(--background-color-1);
+    text-align: center;
+    min-height: 70px;
+    width: 100%;
+    font-family: monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#footer-text {
+    color: white;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    padding: 20px;
+}
+
+#footer-text img {
+    --img-margin: 8px;
+    margin-left: var(--img-margin);
+    margin-right: var(--img-margin);
 }

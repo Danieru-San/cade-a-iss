@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Chris Cassidy",
+        "age": "50",
+        "nationality": "American",
+        "path": "./assets/astronauts/chris-cassidy.jpg"
+    },
+
+    {
+        "name": "Anatoly Ivanishin",
+        "age": "51",
+        "nationality": "Russian",
+        "path": "./assets/astronauts/anatoly-ivanishin.jpg"
+    }, 
+
+    {
+        "name": "Ivan Vagner",
+        "age": "34",
+        "nationality": "Russian",
+        "path": "assets/astronauts/ivan-vagner.jpg"
+    }
+]

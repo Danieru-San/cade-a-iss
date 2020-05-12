@@ -4,16 +4,16 @@ const PEOPLE_IN_SPACE = "http://api.open-notify.org/astros.json";
 const OVERHEAD_PASS = `http://api.open-notify.org/iss-pass.json?`;
 const peopleInSpace = document.getElementById("people-in-space");
 const whenHere = document.getElementById('when');
-const whoThere = document.getElementById('who');
 const astronautsGallery = document.getElementById('gallery');
+var map; // Leaflet map
+var issLat;
+var issLon;
 
 function getUserLocation(callback) {
     if('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition((position) => { 
-            console.log(position.coords);
-            latitude = position.coords.latitude;
-            longitude = position.coords.longitude;
-            callback();
+            // console.log(position.coords);
+            callback(position.coords.latitude, position.coords.longitude);
         });
     }
 
@@ -30,18 +30,34 @@ async function calculatePasses() {
 
 /* -------- When user clicks 'When can I see it?' button -------- */
 whenHere.onclick = () => {
-    getUserLocation(async () => {
-        // console.log("got here");
-        const result = await fetch(`/iss/passes/${latitude}/${longitude}`);
-        // TODO
-        console.log(await result.json());
+    getUserLocation(async (userLat, userLon) => {
+        // After getting user location, get ISS passes from API:
+        const result = await fetch(`/iss/passes/${userLat}/${userLon}`);
+        const issPasses = await result.json();
+        
+        // Add marker with user location:
+        const userMarker = L.marker([userLat, userLon]);
+        userMarker.addTo(map);
+        
+        // Repositions the map
+        map.flyTo([userLat, userLon], 6, {
+            animate: true,
+            duration: 1
+        });
+
+        userMarker.bindPopup(`
+            <b>My position</b><br>
+            The ISS will be over here at...
+            Tomorrow, <br>
+            Then again <br>
+            Then again
+        `).openPopup();
+
+        
+        console.log(issPasses);
+        
     });
 }
-
-/* -------- When user clicks 'Who's in space?' button -------- */
-// whoThere.onclick = () => {
-
-// }
 
 var issIcon = L.icon({
     iconUrl: './assets/iss.png',
@@ -74,44 +90,67 @@ async function getPeopleInSpace() {
     const crew = await response.json(); 
     console.log(crew);
     
-    peopleInSpace.textContent = crew.number;        
-
+    peopleInSpace.textContent = crew.number;       
+    
+    // TODO: create API to automate updating process and replace hard-coded information
+    const astronautsList_response = await fetch('./astronauts.json');
+    const astronautsList = await astronautsList_response.json();
 
     (crew.people).map((astronaut) => {
+        let pic;
+        let age;
+        let nationality;
+        let emoji = '';
+
+        const thisAstro = astronautsList.filter(e => e.name === astronaut.name)[0];
+        pic = thisAstro.path;
+        age = thisAstro.age;
+        nationality = thisAstro.nationality;
+
+        if (nationality === "American") {
+            emoji = 'United States 🇺🇸';
+        }
+
+        else if (nationality === "Russian") {
+            emoji = 'Russia 🇷🇺';
+        }
+
         var additionalHTML = 
         `
         <div class="astronaut">
-                    <div class="astronaut-picture">
-                    </div>
-                    <div class="astronaut-info">
-                        <div class="astronaut-name">${astronaut.name}</div>
-                        <div class="astronaut-age">45 years</div>
-                        <div class="astronaut-nationality">American 🇺🇸</div>
-                    </div>
-                </div>
+            <div class="astronaut-picture">
+                <img src=${pic} alt="astronaut"> 
+            </div>
+        
+            <div class="astronaut-info">
+                <div class="astronaut-name"><b>${astronaut.name}</b></div>
+                <div class="astronaut-age">${age} years old</div>
+                <div class="astronaut-nationality">${emoji} </div>
+            </div>
+        </div>
         `;
 
         astronautsGallery.innerHTML += additionalHTML
     })
-    
+
 }
 
 async function getISS(map) {
     const response = await fetch('/iss/position');
     const issPosition = await response.json();
-        const lat = issPosition.latitude;
-        const lon = issPosition.longitude;
-        drawStation(map, lat, lon)
+        issLat = issPosition.latitude;
+        issLon = issPosition.longitude;
+        drawStation(map, issLat, issLon)
 }
 
 function initMap() {
-    var map = L.map('map-container', {zoomControl: false}).setView([0, 0], 3);
+    map = L.map('map-container', {zoomControl: false, worldCopyJump: true}).setView([0, 0], 3);
 
     var CartoDB = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
         subdomains: 'abcd',
         maxZoom: 6,
-        minZoom: 3
+        minZoom: 3,
     });
 
     // map.setMaxBounds(map.getBounds());
