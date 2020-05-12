@@ -4,6 +4,8 @@ const PEOPLE_IN_SPACE = "http://api.open-notify.org/astros.json";
 const OVERHEAD_PASS = `http://api.open-notify.org/iss-pass.json?`;
 const peopleInSpace = document.getElementById("people-in-space");
 const whenHere = document.getElementById('when');
+const whoThere = document.getElementById('who');
+const astronautsGallery = document.getElementById('gallery');
 
 function getUserLocation(callback) {
     if('geolocation' in navigator) {
@@ -22,27 +24,11 @@ function getUserLocation(callback) {
 
 async function calculatePasses() {
     getUserLocation(async () => {
-        // console.log({latitude, longitude});
-        // const result = await fetch(OVERHEAD_PASS + `lat=${latitude}&lon=${longitude}`);
-        // const OVERHEAD_PASS_JSON = await result.json();
-        // console.log(OVERHEAD_PASS_JSON);
-        
-        // const options = {
-        //     method: 'GET',
-        //     // mode: 'cors',
-        //     // credentials: 'same-origin',
-        //     // headers: {
-        //     //     "Content-Type": "application/json",
-        //     //     "Access-Control-Allow-Origin": "*",
-        //     // },
-        // }
-    
-        // fetch(`./iss_passes/lat/:${latitude}/lon/:${longitude}`, options);
-        // calculatePasses();
         const result = await fetch('/test');
     });
 }
 
+/* -------- When user clicks 'When can I see it?' button -------- */
 whenHere.onclick = () => {
     getUserLocation(async () => {
         // console.log("got here");
@@ -51,6 +37,11 @@ whenHere.onclick = () => {
         console.log(await result.json());
     });
 }
+
+/* -------- When user clicks 'Who's in space?' button -------- */
+// whoThere.onclick = () => {
+
+// }
 
 var issIcon = L.icon({
     iconUrl: './assets/iss.png',
@@ -76,8 +67,6 @@ function drawStation(map, lat, lon) {
     else {
         marker.setLatLng([lat, lon])
     }
-
-
 }
 
 async function getPeopleInSpace() {
@@ -86,6 +75,25 @@ async function getPeopleInSpace() {
     console.log(crew);
     
     peopleInSpace.textContent = crew.number;        
+
+
+    (crew.people).map((astronaut) => {
+        var additionalHTML = 
+        `
+        <div class="astronaut">
+                    <div class="astronaut-picture">
+                    </div>
+                    <div class="astronaut-info">
+                        <div class="astronaut-name">${astronaut.name}</div>
+                        <div class="astronaut-age">45 years</div>
+                        <div class="astronaut-nationality">American 🇺🇸</div>
+                    </div>
+                </div>
+        `;
+
+        astronautsGallery.innerHTML += additionalHTML
+    })
+    
 }
 
 async function getISS(map) {
