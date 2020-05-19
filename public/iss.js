@@ -5,9 +5,16 @@ const OVERHEAD_PASS = `http://api.open-notify.org/iss-pass.json?`;
 const peopleInSpace = document.getElementById("people-in-space");
 const whenHere = document.getElementById('when');
 const astronautsGallery = document.getElementById('gallery');
+const backToMap = document.getElementById('back-to-map');
 var map; // Leaflet map
 var issLat;
 var issLon;
+
+backToMap.onclick = () => {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
 
 function getUserLocation(callback) {
     if('geolocation' in navigator) {
@@ -28,6 +35,18 @@ async function calculatePasses() {
     });
 }
 
+function isVisible(time) {
+    let hourOfDay = time.getHours();
+
+    if (hourOfDay > 5 && hourOfDay < 18) {
+        return "<span class='notVisible'>" + time.toLocaleDateString() + ": " + time.toLocaleTimeString() + " (not visible) </span><br>";
+    }
+
+    else {
+        return "<b>" + time.toLocaleDateString() + ": " + time.toLocaleTimeString() + "<span class='isVisible'> (visible!)</span></b><br>";
+    }
+}
+
 /* -------- When user clicks 'When can I see it?' button -------- */
 whenHere.onclick = () => {
     getUserLocation(async (userLat, userLon) => {
@@ -45,16 +64,23 @@ whenHere.onclick = () => {
             duration: 1
         });
 
+        let passes = ``;
+        (issPasses.response).map(pass => {
+            var date = new Date(pass.risetime * 1000);
+            console.log(date.toLocaleDateString(), date.toLocaleTimeString());
+            passes += isVisible(date);
+            
+        })
+
         userMarker.bindPopup(`
-            <b>My position</b><br>
-            The ISS will be over here at...
-            Tomorrow, <br>
-            Then again <br>
-            Then again
+            <b>The ISS will be right above your head at...</b><br>
+            ${passes}
         `).openPopup();
 
+        console.log(passes);
+
         
-        console.log(issPasses);
+        // console.log(issPasses);
         
     });
 }

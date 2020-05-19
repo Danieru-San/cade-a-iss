@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <div class="page1-container">
+    <div class="page1-container" id="page-1">
         <div class="header-container">
             <div class="title-and-logo">
                 <div class="logo">
@@ -37,28 +37,32 @@
             
         </div>
     </div>
+
+    <div class="page2-container"> 
+
+        <div class="astronauts-container" id="page-2">
+
+            <div class="astronauts-title">THERE ARE CURRENTLY <span id="people-in-space"></span><span id="number-beings"> HUMAN BEINGS</span> IN SPACE</div>
+    
+            <div class="astronauts-gallery" id="gallery">
+                <!-- Filled after fetching API results  -->
+            </div>
+    
+    
+            <div class="learn-more">
+                <button><a href="https://www.nasa.gov/mission_pages/station/main/index.html">Learn more about the ISS</a></button>
+                <button type="button" id="back-to-map"><a href="#page-1">Back to map</a></button>
+            </div>
+    
+        </div>
+    
+        <footer class="footer">
+            <span id="footer-text"><i>'Where is the ISS?'</i> is a creation of<img src="./assets/github.png" width="15px" height="15px" alt=""><a href="https://github.com/Danieru-San"> Danieru-San</a> </span>
+        </footer>
+        
+    </div>
     
 
-    <div class="astronauts-container" id="page-2">
-
-        <div class="astronauts-title">THERE ARE CURRENTLY <span id="people-in-space"></span><span id="number-beings"> HUMAN BEINGS</span> IN SPACE</div>
-
-        <div class="astronauts-gallery" id="gallery">
-            <!-- Filled after fetching API results  -->
-        </div>
-
-
-        <div class="learn-more">
-            <button><a href="https://www.nasa.gov/mission_pages/station/main/index.html">Learn more about the ISS</a></button>
-        </div>
-
-
-
-    </div>
-
-    <footer class="footer">
-        <span id="footer-text"> <i>'Where is the ISS?'</i> is a creation of<img src="./assets/github.png" width="15px" height="15px" alt=""><a href="https://github.com/Danieru-San"> Danieru-San</a> </span>
-    </footer>
 
     <script src="iss.js"></script>
 </body>
