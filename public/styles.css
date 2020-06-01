@@ -149,7 +149,7 @@ a {
     min-height: calc(100vh - 70px);
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
 }
 
@@ -161,17 +161,6 @@ a {
     margin-top: 40px;
 }
 
-.astronauts-gallery {
-    flex: 2;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background-color: whitesmoke 0.2;
-    width: 80%;
-    height: 400px;
-}
-
 /* Astronaut picture container */
 .astronaut { 
     margin-top: 50px;
@@ -180,11 +169,16 @@ a {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    justify-items: center;
     width: 290px;
     height: 375px;
     background-color: var(--text-color);
     font-family: var(--default-font);
     color: var(--text-color);
+    background-color: white;
+    padding: 10px;
+    padding-top: 5px;
 }
 
 .astronaut-picture {
@@ -347,4 +341,15 @@ a {
 .page2-container {
     width: 100%;
     min-height: 100vh;
+}
+
+.basic-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-rows: auto;
+    width: 80%;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
 }

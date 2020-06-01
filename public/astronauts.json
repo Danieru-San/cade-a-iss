@@ -18,5 +18,19 @@
         "age": "34",
         "nationality": "Russian",
         "path": "assets/astronauts/ivan-vagner.jpg"
+    },
+
+    {
+        "name": "Doug Hurley",
+        "age": "53",
+        "nationality": "American",
+        "path": "assets/astronauts/doug-hurley.jpg"
+    },
+
+    {
+        "name": "Bob Behnken",
+        "age": "49",
+        "nationality": "American",
+        "path": "assets/astronauts/bob-behnken.jpg"
     }
 ]
